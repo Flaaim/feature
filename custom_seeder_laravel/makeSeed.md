@@ -1,4 +1,4 @@
-<?php
+```
 
 namespace App\Console\Commands;
 
@@ -81,3 +81,4 @@ class makeSeed extends Command
         return $path;
     }
 }
+```
