@@ -6,7 +6,7 @@
     protected $signature = 'make:seed {name} {--path=}'
 ```
 3. Описываем функцию handle()
-```
+```php
 public function handle()
 {
     $name = Str::studly($this->argument('name'));
@@ -32,7 +32,7 @@ public function handle()
 }
 ```
 4. Функция getPath();
-```
+```php
     private function getPath($name)
     {
         if($this->input->getOption('path')){
