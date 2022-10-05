@@ -25,7 +25,7 @@
                     <div class="card-body">
                     <passport-clients></passport-clients>
                 </div>
-
+                <passport-authorized-clients></passport-authorized-clients>
                 <div class="card-header">
                     <div class="card-body">
                     <passport-personal-access-tokens></passport-personal-access-tokens>
