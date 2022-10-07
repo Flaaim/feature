@@ -7,7 +7,7 @@
   Route::get('tweets', [App\Http\Controllers\TweetController::class, 'index'])->middleware('auth:api'); //получение всех записей 
   Route::post('tweets', [App\Http\Controllers\TweetController::class, 'store'])->middleware('auth:api'); //добавление записи.
 ```
-## Добавляем новое приложение
+## Создаем новое приложение Fresher
 1. Создаем еще одно приложение composer create-project laravel/laravel fresher. 
 2. Создаем скафолдинг auth. composer require ui, php artisan ui bootstrap --auth
 3. запускаем стандартные миграции
@@ -36,3 +36,49 @@
     public function token() {
       return $this->belongsTo(Token::class);
     }
+6. В первом приложении создаем OAUTH Client. Name Fresher, Redirect http://fresher/callback.
+7. В приложении fresher web.php прописываем новые маршруты
+```php
+  Route::group(['middleware' => 'auth'], function(){
+    Route::get('/auth/twitter', [App\Http\Controllers\TwitterAuthController::class, 'redirect']);
+    Route::get('/callback', [App\Http\Contollers\TwitterAuthController::class, 'callback']);
+  });
+```
+8. Создаем TwitterAuthController. Прописываем в нем методы redirect(), callback()
+```php
+//TwitterAuthController
+
+  public function redirect(Request $request){
+    $request->session()->put('state', $state = Str::random(40));
+    $query = http_build_query([
+      'client_id' => 5, //свое значение
+      'redirect_uri' => 'http://fresher/callback',
+      'response_type' => 'code',
+      'scope' => '',
+      'state' => $state
+    ]);
+    return redirect('http://fresh/oauth/authorize?'.$query);
+    }
+   public function callback(Request $request){
+    $state = $request->session()->pull('state');
+    throw_unless(
+            strlen($state) > 0 && $state === $request->state,
+            InvalidArgumentException::class
+        );
+        $response = Http::asForm()->post('http://fresh/oauth/token', [
+                'grant_type' => 'authorization_code',
+                'client_id' => 5,
+                'client_secret' => 'WhIaLxWfvYkhnfKoBjdHUiNcmDUhE0A5foTFEMAM',
+                'redirect_uri' => 'http://fresher/callback',
+                'code' => $request->code,
+        ]);
+        $response = $response->json();
+        
+        
+        $request->user()->token()->delete();
+        $request->user()->token()->create([
+            'access_token' => $response['access_token'],
+        ]);
+        return redirect()->route('home');
+   }
+```
