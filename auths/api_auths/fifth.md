@@ -36,6 +36,7 @@
     public function token() {
       return $this->belongsTo(Token::class);
     }
+```
 6. В первом приложении создаем OAUTH Client. Name Fresher, Redirect http://fresher/callback.
 7. В приложении fresher web.php прописываем новые маршруты
 ```php
