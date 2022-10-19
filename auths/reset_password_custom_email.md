@@ -50,4 +50,10 @@ class CustomResetPasswordNotification extends ResetPassword
     }
 }
 ```
+## Customize mail template
+1. Копируем шаблоны уведомлений в папку resources. Меняем шаблон под себя.
+```php
+  php artisan vednor:publish --tag=laravel-notifications
+```
+
 
