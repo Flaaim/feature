@@ -47,7 +47,8 @@ class HomeController extends BaseController
 
 ```php
   //layouts.app
-  
+    @yield('content')
+    
   //main.blade.php
   @extends('layouts.app')
   
