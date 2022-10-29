@@ -109,6 +109,9 @@
   
   function search(options)
   {
+    let field = options.field || 'id';
+    let sort = options.sort || 'asc';
+    let page = options.page || 1;
     let keyword = $('#search').val();
     $.ajax({
       url: {{route('showResults')}},
@@ -118,11 +121,64 @@
       }
       dataType: "json",
       success:function(data){
-          table_post_row //Отображение записей
+          table_post_row(data) //Отображение записей
       },error(data){
           console.log('error!')
       }
     })
   }
-  search(options)
+  search(options);
+  
+          $('#search').on('keyup', function(){
+            search(options);
+        });
+
+        $('.sort').click(function(){
+            this.val == 'asc' ? this.val = 'desc' : this.val = 'asc'
+            $(this).val(this.val);
+            options.field = $(this).attr('id');
+            options.sort = $(this).val();
+            $(this).children().attr('class') == 'bi bi-caret-down' ? $(this).children().attr('class', 'bi bi-caret-up') : $(this).children().attr('class', 'bi bi-caret-down');
+            search(options);
+        })
+        
+        
+  function table_post_row(res)
+  {
+    let htmlView = ""; //Отображение записей
+    let htmlPaginateView = ""; //Отображение пагинации
+    if(res.directions.length == 0)
+    {
+      htmlView += "<tr><td>Записи не найдены!</td></tr>";
+    }
+    
+    for(let i = 1; i <= res.directions; i++)
+    {
+      htmlView += `
+      <tr>
+        <td>`+res.directions[i].id+`</td>
+        ...
+        ...
+      </tr>`;
+    }
+    htmlPaginateView +=`<tr>`;
+    for(let i = 1; i < res.countofpages; i++)
+    {
+        if(i == res.pagenumber)
+        {
+          htmlPaginateView += `<td><button class="btn btn-link paginate" value="`+i+`" disabled>`+i+`</button></td>`
+        } else {
+          htmlPaginateView += `<td><button class="btn btn-link paginate" value="`+i+`">`+i+`</button></td>`
+        }
+    }
+    htmlPaginateView += `</tr>`;
+    
+      $('.directions').html(htmlView);
+      $('.pagination').html(htmlPaginateView);
+
+      $('.paginate').click(function(){
+        options.page = $(this).val();
+        search(options);
+        })
+  }
 ```
