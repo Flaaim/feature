@@ -1,9 +1,11 @@
 # Живой поиск, сортировка столбцов, пагинация Laravel
+##ROUTE
 1. Прописываем route, который будет осуществлять все действия.
 ```php
 //web.php
   route::post('/search', [App\Controllers\NameOfController::class, 'showResults'])->name('showResults');
 ```
+##Controller
 2. Создаем контроллер NameOfController. Метод для обрабоки запросов showResult();
 ```php
   //NameOfController
@@ -56,7 +58,7 @@
     return ceil(count($directions) / 5);
   }
 ```
-
+##Blade
 3. В blade file выводим models в таблицу.
 ```php
             <table class="table">
@@ -96,4 +98,31 @@
                 //Выводим пагинацию
                 </tbody>
             </table>
+```
+##JS, AJAX, Jquery
+4. Описываем метод для отображения записей
+```javascript
+  const options = {}
+  $('#search').keyup(function(){
+    search(options)
+  });
+  
+  function search(options)
+  {
+    let keyword = $('#search').val();
+    $.ajax({
+      url: {{route('showResults')}},
+      method: "POST",
+      data: {
+        keyword:keyword
+      }
+      dataType: "json",
+      success:function(data){
+          table_post_row //Отображение записей
+      },error(data){
+          console.log('error!')
+      }
+    })
+  }
+  search(options)
 ```
