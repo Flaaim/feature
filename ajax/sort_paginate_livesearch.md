@@ -12,16 +12,48 @@
     if($request->ajax())
     {
       $offSet = $this->getOffSet($request->page); //Получаем отступ offset
-      $company = $this->getCompany();       //Получаем компанию 
-      $directions = $this->getDirections()  //Получаем направления
-      $countOfPages = $this->countOfPages() //Получаем количество страниц
+      $company = $this->getCompany($this->user);       //Получаем компанию 
+      $directions = $this->getDirections($request, $company, $offSet)  //Получаем направления
+      $countOfPages = $this->countOfPages($company) //Получаем количество страниц
       $pageNumber = $this->pageNumber() //получаем номер страницы
       
       return response()->json(
       [
-        'directions' => $directions,
+        'directions' => $directions, //возвращает направления
+        'countofpages'=> $countOfPages, //возвращает количество страниц
+        'pagenumber' => $pageNumber, //возвращает номер страницы
       ]);
     }
+  }
+  
+  public function getOffSet($page)
+  {
+    return ($page != 1) ? ($page * 5) - 5 : 0 // Например страница 2 -> (2*5) - 5 = 5, 3 -> 10 и т.д.
+  }
+  public function $company($user)
+  {
+    //Получаем компанию выбранного пользователя и активную status = 1
+    return Company::where('status', '1')->where('user_id', $user->id)->first();
+  }
+  
+  public function getDirections($request, $company, $offSet)
+  {
+    //Если форма поиска не используется, то выводиться все направления выбранной компании + сортировка и разбивка offset по 5 записей
+    return ($request->keyword == '') ? 
+        DB::table('directions')
+            ->where('company_id', $company->id)
+                ->orderBy($request->field, $request->sort)
+                        ->offset($offSet)->limit(5)->get() : 
+        DB::table('directions')->where('company_id', $company->id)
+                ->where('fullname', 'LIKE', '%'.$request->keyword.'%')->get();
+        
+  }
+  
+  public function getCountpages($company)
+  {
+    //Количество страниц с направлениями = округлить в большую стророну(кол-во направлений / 5)
+    $directions = DB::table('directions')->where('company_id', $company->id)->get();
+    return ceil(count($directions) / 5);
   }
 ```
 
