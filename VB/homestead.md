@@ -3,9 +3,16 @@
 ```
 git clone https://github.com/laravel/homestead.git ~/Homestead
 ```
-2. Устанавливаем Homestead. https://app.vagrantup.com/laravel/boxes/homestead.
-3. Меняем имя у скаченного файла на homestead.box
-4. Добавляем box в vagrant
+3. Иницируем
+```
+bash init.sh
+ 
+# Windows...
+init.bat
+```
+5. Устанавливаем Homestead. https://app.vagrantup.com/laravel/boxes/homestead.
+6. Меняем имя у скаченного файла на homestead.box
+7. Добавляем box в vagrant
 ```
   vagrant box add laravel/homestead [полный путь к скачанному файлу].
 ```
@@ -14,3 +21,4 @@ git clone https://github.com/laravel/homestead.git ~/Homestead
 https://app.vagrantup.com/laravel/boxes/homestead 
 ```
 6. Далее переименовываем папку с названием 0 на 12.1.0, где 12.1.0 это версия laravel/homestead бокса
+7. выполняем vagrant up
