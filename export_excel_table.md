@@ -72,3 +72,29 @@ public function headings():array
   ```php
               Route::get('/export/{company}', [App\Http\Controllers\DirectionController::class, 'export'])->name('direction.export');
   ```
+## Добавление даты
+
+1. Передаем дату в $directions = new DirectionExport($company). Можно передать реквестом или просто переменными
+
+```
+$directions = new DirectionExport($companyб $request)
+```
+2. В class DirectionsExport создаем переменные даты. Например $dateStart, $dateEnd. Определяем их в конструкторе.
+```
+protected $dateStart;
+protected $dateEnd;
+
+    public function __construct($company, $request){
+        $this->company = $company;
+        $this->dateStart = Carbon::parse($request->dateStart)
+        $this->dateEnd = Carbon::parse($request->dateEnd)
+    }
+
+```
+3. Выводим результаты экспорта с учетом свойств 
+```
+    public function getDirections()
+    {
+        ////
+    }
+```
