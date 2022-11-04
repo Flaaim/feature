@@ -1,7 +1,7 @@
 # Установка Homestead
 1. Клонируем репозиторий.
 ```
-git clone https://github.com/laravel/homestead.git ~/Homestead
+git clone -b realise https://github.com/laravel/homestead.git ~/Homestead
 ```
 3. Иницируем
 ```
@@ -22,3 +22,13 @@ https://app.vagrantup.com/laravel/boxes/homestead
 ```
 6. Далее переименовываем папку с названием 0 на 12.1.0, где 12.1.0 это версия laravel/homestead бокса
 7. выполняем vagrant up
+8. Синхронизируем folders. 
+```
+folders:
+    - map: C:\Users\flaaim\Code
+      to: /home/vagrant/code
+```
+9. Прописываем в файле hosts C:\Windows\System32\drivers\etc\hosts
+```
+  192.168.56.56  homestead.test
+```
