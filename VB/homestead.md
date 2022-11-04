@@ -32,3 +32,13 @@ folders:
 ```
   192.168.56.56  homestead.test
 ```
+## Установка Phpmyadmin
+1. В директории /code выполняем скрипт 
+```
+curl -sS https://raw.githubusercontent.com/grrnikos/pma/master/pma.sh | bash
+```
+2. На основной машине меняем файл hosts
+```
+127.0.0.1 phpmyadmin.test 
+```
+3. http://phpmyadmin.test:8000, username: homestead, password: secret
