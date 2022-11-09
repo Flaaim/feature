@@ -25,3 +25,23 @@ use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
   }
  
  ```
+ ## Добавляем exception NotFoundHttpException
+ Создаем директорию в resources views/errors/404.blade.php
+ 1. Дописываем исключение в функцию handleException
+ ```php
+  private function handleException($exception, $request)
+  {
+    switch(true){
+      case $exception instanceof MethodNotAllowedHttpException:
+        return redirect()->route('home');
+      case $e instanceof NotFoundHttpException:
+        return redirect()->route('fallback');
+    }
+    return null;
+  }
+ ```
+ 2. Создаем route('fallback');
+ ```php
+  Route::any('/404', function(){
+    return response()->view('error.404', [], 404);
+  })->name('fallback');
