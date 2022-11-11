@@ -27,7 +27,7 @@
     volumes:
       - ./src/app:/var/www/html/app
     working_dir: /var/www/html/app
-    command: install
+    command: install  //или update если приложение уже разработано, если ошибки не устраняются то флаг --ignore-platform-reqs
   ```
   2. В директории app создаем необходимые директории docker/nginx, docker/php, logs/nginx, src
   3. Создаем Dockerfile в директории docker/php
