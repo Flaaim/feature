@@ -8,3 +8,20 @@
   docker port <контейнер> - увидеть порты. 
 ```
 
+## Создание проекта Laravel
+1. В рабочей директории проекта ларавель cоздаем файл docker-compose.yml
+2. Создаем образ mysql
+```yml
+  version "3"
+  
+  services:
+    mysql:
+      image: mysql
+      environment:
+        MYSQL_ROOT_PASSWORD: secret
+        MYSQL_USER: app
+        MYSQL_PASSWORD: secret
+        MYSQL_DATABASE: app    
+```
+
+
