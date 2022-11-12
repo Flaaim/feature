@@ -6,7 +6,7 @@ config: /etc/nginx/conf.d/default.config
 logs: /var/log/nginx/error.log  /var/log/nginx/access.log
 public: /usr/share/nginx/html
 ```
-Структура проекта:
+1. Создаем директорию будущего проекта. project1 Структура проекта:
 ```
 project1
 -- code
@@ -19,7 +19,7 @@ project1
 -- docker-compose.yml
 ```
 
-1. Создаем директорию будущего проекта. project1 В project1 создаем файл docker-compose.yml
+2. В project1 создаем файл docker-compose.yml
 ```yml
   version "3.7"
   
