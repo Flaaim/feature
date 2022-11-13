@@ -42,3 +42,14 @@ project1
 
 ```
 3. Прописываем конфиг. https://github.com/Flaaim/feature/blob/main/VB/config.default
+## Добавление Composer
+4. В файл docker-compose.yml добавляем.
+```yml
+  composer:
+    image: composer
+    volumes:
+      - ./code:/usr/share/nginx/html
+    working_dir: /usr/share/nginx/html
+    command: install
+```
+5. В папке проекта /code создаем файл composer.json или копируем проект с данным файлом в папку.
