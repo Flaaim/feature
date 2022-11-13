@@ -41,3 +41,4 @@ project1
 
 
 ```
+3. Прописываем конфиг. https://github.com/Flaaim/feature/blob/main/VB/config.default
