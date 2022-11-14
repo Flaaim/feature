@@ -1,84 +1,92 @@
 # Контейнерезация laravel приложения.
-  1. Создаем папку проекта app. Внутри папки создаем файл docker-compose.yml
+  1. Создаем папку проекта Project. Внутри папки создаем файл docker-compose.yml
   ```yml
   version "3.8"
   
   services:
     nginx:
-      container_name: nginx
-      build: ./docker/nginx
-      command: nginx -g "daemon off;"
+      image: nginx
     ports:
-      - "80:80"
+      - "8080:80"
     volumes:
-      - ./logs/nginx/:/var/log/nginx
-      - ./src/app:/var/www/html/app
+      - ./nginx/config/:/etc/nginx/conf.d
+      - ./nginx/log/:/var/log/nginx
+      - ./code:/code
+    depends_on:
+      - php
+    networks:
+      - network-project
     php:
-      container_name: php
-      build: ./docker/php
+      build: ./php
     ports: 
       - "9000:9000"
     volumes: 
-      - ./src/app:/var/www/html/app
-    working_dir: /var/www/html/app
-  composer:
-    container_name: composer
-    image: composer/composer
-    volumes:
-      - ./src/app:/var/www/html/app
-    working_dir: /var/www/html/app
-    command: install  //или update если приложение уже разработано, если ошибки не устраняются то флаг --ignore-platform-reqs
+      - ./code:/code
+    networks:
+      - network-project
+networks:
+  network-project:
+    driver: bridge
+    
   ```
-  2. В директории app создаем необходимые директории docker/nginx, docker/php, logs/nginx, src
-  3. Создаем Dockerfile в директории docker/php
+  2. В директории project создаем необходимые директории /nginx, /php, /code
+  3. Создаем Dockerfile в директории /php
   ```
 FROM php:8.1-fpm
 
-RUN apt-get update
-RUN apt-get install -y openssl zip unzip git curl
-RUN apt-get install -y libzip-dev libonig-dev libicu-dev
-RUN apt-get install -y autoconf pkg-config libssl-dev
+RUN apt-get update && apt-get install -y \
+    git \
+    curl \
+    libpng-dev \
+    libonig-dev \
+    libxml2-dev \
+    zip \
+    unzip
 
 
-RUN docker-php-ext-install bcmath mbstring intl opcache
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+
+RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
+
+RUN curl -sL https://deb.nodesource.com/setup_19.x | bash - 
+RUN apt-get install -y nodejs
+
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+WORKDIR /code
   ```
-4. В директории docker/nginx создаем 2 файла Dockerfile, app.nginx.conf
+4. В директории nginx/config создаем файл default.conf
 ```
-  //app.nginx.conf
+  #default.conf
   
   server {
-    listen 80;
-    index index.html index.php;
+	listen 80;
+	index index.php index.htm index.html;
+    server_name localhost;
+	root /code/public;
 
-    root /var/www/html/medcheckup-app/public;
-    
-    error_log /var/log/nginx/error.log;
-    access_log /var/log/nginx/access.log;
+	error_log  /var/log/nginx/error.log;
+	access_log /var/log/nginx/access.log;
 
-    location / {
-        try_files $uri $uri/ /index.php?$query_string;
+	location ~ \.php$ {
+        try_files $uri =404;
+        fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        fastcgi_pass php:9000;
+        fastcgi_index index.php;
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_param PATH_INFO $fastcgi_path_info;
     }
-
-    location ~ \.php$ {
-		try_files $uri =404;
-		fastcgi_split_path_info ^(.+\.php)(/.+)$;
-		fastcgi_pass php:9000;
-		fastcgi_index index.php;
-		include fastcgi_params;
-		fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-		fastcgi_param PATH_INFO $fastcgi_path_info;
-	}
+        location / {
+        try_files $uri $uri/ /index.php?$query_string;
+        gzip_static on;
+    }
 }
 ```
-
-```
-//Dockerfile
-FROM nginx
-
-ADD medcheckup.nginx.conf /etc/nginx/conf.d/default.conf
-```
-5. В директорию src копируем или создаем laravel проект. src/app/... файлы проекта
-6. Выполняем docker-compose build, docker-compose up. http://localhost/ должне появиться проект.
+5. В директорию code копируем или создаем laravel проект. src/app/... файлы проекта
+6. Выполняем docker-compose up --build, docker-compose up. http://localhost/ должне появиться проект.
+7. При копировании проекта внутри контейнера /code запускаем composer update. Устанавливаем все зависимости. Создаем файл .env, выполняем команду php artisan key: generate.
+8. Через visual studio code (не в контейнере!!) выполняем команды npm install && npm run dev.
  
 
 
