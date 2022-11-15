@@ -33,3 +33,8 @@ $PHP composer.phar update
   RewriteRule ^(.*)$ public/$1 [L]
 </IfModule>
 ```
+9. Проверяем права созданных файлов. Смотрим логи ошибок вебсервера. 
+```
+chmod -R 755 name_of_project
+chmod -R o+w name_of_project/storage
+```
