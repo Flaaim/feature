@@ -26,3 +26,10 @@ PATH=/opt/php/8.1/bin/php-cgi
 //выполняем composer update с PATH
 $PHP composer.phar update
 ```
+В директории проекта создаем .htaccess. редирект с папки проекта на папку public, где храниться index.php
+```
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
+```
