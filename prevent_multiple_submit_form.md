@@ -10,3 +10,8 @@ function preventSubmit(btn) {
 ```
 <button class="btn btn-primary" type="submit" onclick="preventSubmit(this)">{{__('direction.create')}}</button>
 ```
+3. Чтобы изменить текст кнопки в функции необходимо добавить
+```
+$(btn).html('Some text..')  //button
+$(input).prop('value', 'some text..') //input
+```
