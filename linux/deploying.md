@@ -38,3 +38,10 @@ $PHP composer.phar update
 chmod -R 755 name_of_project
 chmod -R o+w name_of_project/storage
 ```
+10. На локальной машине запускаем npm run build.
+11. Копируем папку build в public/build 
+12. Удаляем с app.blade.php, оставляем только @vite('resources/js/app.js')
+```
+    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    @vite(['resources/css/app.css'])
+```
