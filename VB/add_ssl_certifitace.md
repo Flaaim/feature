@@ -7,6 +7,7 @@
 ```
 3. Заполняем информацию
 ```
+//Подставить свою информацию
 Country Name (2 letter code) [AU]:US
 State or Province Name (full name) [Some-State]:New York
 Locality Name (eg, city) []:New York City
