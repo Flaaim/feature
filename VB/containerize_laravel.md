@@ -89,6 +89,19 @@ WORKDIR /code
 8. Через visual studio code (не в контейнере!!) выполняем команды npm install && npm run dev.
  
 
-
+## Добавление phpmyadmin
+1. В файл docker-compose.yml добавляем:
+```yml
+phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    environment:
+      - "PMA_HOST=mysql"
+      - "PMA_PORT=3306"
+    depends_on:
+      - mysql
+    ports:
+      - "8888:80"
+  ```
 
 
