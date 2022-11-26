@@ -56,7 +56,7 @@ server {
 }
 ```
 5. Добавляем php в docker-compose.yml
-```
+```yml
 php:
 	build:
 		context: ./
@@ -64,6 +64,24 @@ php:
 	volumes:
 		- ./:/var/www
 ```
+6. Добавляем mysql
+```yml
+mysql:
+	image: mysql
+	ports:
+		- "33061:3306"
+	volumes:
+		- ./storage/docker/mysql:/var/lib/mysql
+	enviroment:
+		  - "MYSQL_ROOT_PASSWORD=secret"
+      - "MYSQL_USER=app"
+      - "MYSQL_PASSWORD=secret"
+      - "MYSQL_DATABASE=roles-permissions"
+//Добавляем что php
+    depends_on:
+      - mysql
+```
+
 =====================================================		
 
 
