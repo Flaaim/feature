@@ -1,4 +1,89 @@
 # Контейнерезация laravel приложения.
+1. Устанавливаем/копируем проект. Composer create-project laravel/laravel myproject
+2. В папке myproject создаем директорию docker.
+```yml
+version: "3.8"
+
+services:
+	nginx:
+		image: nginx
+		ports:
+			- "8080:80"
+		volumes:
+			- ./docker/nginx/config/:/etc/nginx/conf.d
+			- ./docker/nginx/log/:/var/log/nginx
+			- ./:/var/www
+		depends_on:
+			- php
+```
+3. Структура папок будет следующая
+```
+myproject
+	- docker
+		- nginx
+			 - config
+			 		config.default
+			 - log
+			 		//logs
+		- php
+			php-fpm.dockerfile
+```
+4. Создаем конфиг для nginx
+```
+server {
+	listen 80;
+	index index.php index.html;
+	root /var/www/public;
+    
+    #ssl on;
+    #ssl_certificate /etc/nginx/ssl/nginx-selfsigned.crt;
+    #ssl_certificate_key /etc/nginx/ssl/nginx-selfsigned.key;
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+	location ~ \.php$ {
+        try_files $uri =404;
+        fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        fastcgi_pass php:9000;
+        fastcgi_index index.php;
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_param PATH_INFO $fastcgi_path_info;
+    }
+
+}
+```
+5. Добавляем php в docker-compose.yml
+```
+php:
+	build:
+		context: ./
+		dockerfile: ./docker/php/php-fmp.dockerfile
+	volumes:
+		- ./:/var/www
+```
+=====================================================		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Страрая версия
   1. Создаем папку проекта Project. Внутри папки создаем файл docker-compose.yml
   ```yml
   version "3.8"
