@@ -2,7 +2,7 @@
 
 1. Создаем проект composer require laravel/laravel fresh
 2. Определяем имя базы данных в файле .env DB_DATEBASE = fresh
-3. Устанавливаем UI: composer require laravel/ui, php artisan ui bootstrap -auth, npm install, npm run dev, php artisan ui vue
+3. Устанавливаем UI: composer require laravel/ui, php artisan ui bootstrap --auth, npm install, npm run dev, php artisan ui vue
 4. Запускаем миграции php artisan migrate
 5. В config/app.php прописываем 'name' => 'Twitter', В app.blade.php меняем nav bar '/home'
 6. Создаем миграцию php artisan make:migration create_tweets_table --create=tweets
