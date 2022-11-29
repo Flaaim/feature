@@ -25,8 +25,11 @@
         }
  ```
  2. Валидация данных. Данные приходят в массиве data
- 3. Создаем Request. php artisan make:request HarmfulfactorRequest.
- 4. В HarmfulfactorRequest для успешной валидации данных необходимо переопределить метод validationData() из FormRequest
+ 3. Создаем Request. 
+ ```
+ php artisan make:request HarmfulfactorRequest.
+ ```
+ 5. В HarmfulfactorRequest для успешной валидации данных необходимо переопределить метод validationData() из FormRequest
  ```
   //HarmfulfactorRequest
      public function validationData()
