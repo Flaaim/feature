@@ -19,7 +19,7 @@ services:
 3. Структура папок будет следующая
 ```
 myproject
-	- docker
+- docker
 		- nginx
 			 - config
 			 		config.default
