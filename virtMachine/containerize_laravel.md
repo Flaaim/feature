@@ -83,8 +83,12 @@ mysql:
 ```
 
 =====================================================		
-
-
+### Устранение ошибок 
+1. The stream or file "/var/www/storage/logs/laravel.log" could not be opened in append mode: Failed to open stream: Permission denied 
+```
+//выполнить
+chown -R www-data:www-data /var/www
+```
 
 
 
