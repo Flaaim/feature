@@ -81,15 +81,23 @@ mysql:
     depends_on:
       - mysql
 ```
-
-=====================================================		
+### Настройка MYSQL
+В файле .env в настройках базы данных прописываем:
+```
+DB_HOST=mysql //название service из docker-compose.yml
+DB_PORT=3306 //порт
+DB_DATABASE=app // из environment docker-compose.yml
+DB_USERNAME=app // из environment docker-compose.yml
+DB_PASSWORD=secret // из environment docker-compose.yml
+```
+	
 ### Устранение ошибок 
 1. The stream or file "/var/www/storage/logs/laravel.log" could not be opened in append mode: Failed to open stream: Permission denied 
 ```
 //выполнить
 chown -R www-data:www-data /var/www
 ```
-
+=====================================================	
 
 
 
