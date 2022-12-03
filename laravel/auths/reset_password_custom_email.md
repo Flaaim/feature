@@ -16,9 +16,9 @@
 php artisan make: notification CustomResetPasswordNotification
 ```
 4. Описываем созданный файл CustomResetPasswordNotification.php. 
-4.1. Переопределям конструктор
-4.2. Переопределяем метод toMail($notifiable)
-4.3. Переопределяем метод buildMailMessage($url)
+- Переопределям конструктор
+- Переопределяем метод toMail($notifiable)
+- Переопределяем метод buildMailMessage($url)
 ```php
 use Illuminate\Auth\Notifications\ResetPassword;
 
