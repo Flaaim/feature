@@ -30,4 +30,9 @@ class MarkUserActive
         ]
     ];
  ```
+ ## method # 2
+ 1. В VerificationController переопределить метод `verified()` в трейта VerifiesEmails
+
+### !!!
+незабыть указать в свойстве $fillable модели User, 'status'
  
