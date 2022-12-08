@@ -1,4 +1,4 @@
-# Slim установка и настройка.
+# Slim Guide.
 ## Первоначальная установка
 1. Создаем проект mkdir slim && cd slim
 2. Composer `require slim/slim "4.*"`
@@ -64,11 +64,58 @@ $app->get('/', function(Request $request, Response $response){
     AppFactory::setContainer($container);
 
     //$app = AppFactory::create();   
-     
+
     $app->set('hello', function(){
         return 'Hello!';
     });
 
+```
+## Rendering Template
+1. Устанавливаем Twig. Документация по twig: https://github.com/slimphp/Twig-View
+```
+    composer require slim/twig-view
+```
+2. Создаем папку views. Создаем файл home.twig
+```php
+    use Slim\Views\Twig;
+    use Slim\Views\TwigMiddleware;
+
+    $container->set('hello', function(){
+        return Twig::create('views', ['cache' => false]);
+    });
+
+    $app->add(TwigMiddleware::createFromContainer($app, 'hello'));
+
+    $app->get('/', function(Request $request, Response $response){
+        return $this->get('hello')->render($response, 'home.twig');
+    });
+```
+### Передача данных в шаблон.
+```php
+    $app->get('/', function(Request $request, Response $response){
+        $users = ['Alex', 'Anna', 'Kostya'];
+        return $this->get('hello')->render($response, 'home.twig', compact($users));
+    });
+```
+## Отправка данных методом POST
+1. Создаем view с формой.
+```
+{% extends "layouts/app.twig" %}
+
+{% block content %}
+        <form action="{{ url_for('contact') }}" method="POST">
+            <input type="text" name="name" id="name">
+            <button type="submit">Send</button>
+        </form>
+{% endblock %}
+```
+2. Создаем route c методом post
+```php
+    $app->post('/contact', function(Request $request, Response $response){
+        $data = $request->getParsedBody();
+        var_dump($data);
+        die();
+    })->setName('contact');
 ```
 
 
