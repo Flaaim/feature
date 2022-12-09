@@ -1,4 +1,4 @@
-# Slim Guide.
+# Slim установка и настройка.
 ## Первоначальная установка
 1. Создаем проект mkdir slim && cd slim
 2. Composer `require slim/slim "4.*"`
@@ -117,5 +117,76 @@ $app->get('/', function(Request $request, Response $response){
         die();
     })->setName('contact');
 ```
+## Передача параметров в Route
+1. Создадим Route
+```php
+$app->get('/profile/{username}', function(Request $request, Response $response, $args){
+    var_dump($args);
+    die();
+})->setName('profile');
+```
+### Route group
+```
+$app->group('/profile/{username}', function($group){
+    $group->get('', function(Request $request, Response $response, $args){
+        $user = $args['username'];
+        return $this->get('hello')->render($response, 'profile.twig', ['username' => $user]);
+    })->setName('profile');
 
+    $group->get('/post/{id}', function(Request $request, Response $response, $args){
+        $id = $args['id'];
+        return $this->get('hello')->render($response, 'post.twig', ['id' => $id]);
+    });
+});
+```
+### Redirect route
+1. Простой редирект
+```php
+$app->get('/one', function(Request $request, Response $response){
+    return $response->withHeader('Location', '/two')->withStatus(302);
+});
 
+$app->get('/two', function(Request $request, Response $response){
+    $response->getBody()->write('two');
+
+    return $response;
+});
+
+```
+2. Редирект с named routes
+```php
+    $app->get('/one', function(Request $request, Response $response) use($app) {
+        return $response->withHeader('Location', $app->getRouteCollector()->getRouteParser()->urlFor('two'))->withStatus(302);
+    })
+        ->setName('one');
+
+    $app->get('/post/two', function(Request $request, Response $response){
+        $response->getBody()->write('two');
+        return $response;
+    })
+        ->setName('two');
+```
+## JSON response
+```php
+$app->get('/json', function(Request $request, Response $response){
+    $data = [
+        'name' => 'Harry', 'surname' => 'Potter'
+    ];
+    $response->getBody()->write(json_encode($data));
+    return $response->withHeader('Content-Type', 'application/json');
+});
+```
+## Slim project Template
+see https://github.com/Flaaim/slim_template
+```
+    - vendor
+    - public
+        - index.php
+        - .htaccess
+    - routes
+        - web.php
+    - bootstrap
+        - app.php
+        - middleware.php
+        - container.php
+```
