@@ -65,7 +65,7 @@ $app->get('/', function(Request $request, Response $response){
 
     //$app = AppFactory::create();   
 
-    $app->set('hello', function(){
+    $container->set('hello', function(){
         return 'Hello!';
     });
 
