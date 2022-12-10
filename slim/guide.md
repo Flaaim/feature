@@ -10,7 +10,7 @@ require 'vendor/autoload.php';
 
     use Slim\Factory\AppFactory;
 
-    $app = AppFactory::create();
+    $app->AppFactory::create();
 
     $app->run();
 
@@ -65,7 +65,7 @@ $app->get('/', function(Request $request, Response $response){
 
     //$app = AppFactory::create();   
 
-    $container->set('hello', function(){
+    $app->set('hello', function(){
         return 'Hello!';
     });
 
@@ -126,7 +126,7 @@ $app->get('/profile/{username}', function(Request $request, Response $response, 
 })->setName('profile');
 ```
 ### Route group
-```
+```php
 $app->group('/profile/{username}', function($group){
     $group->get('', function(Request $request, Response $response, $args){
         $user = $args['username'];
@@ -177,7 +177,7 @@ $app->get('/json', function(Request $request, Response $response){
 });
 ```
 ## Slim project Template
-see https://github.com/Flaaim/slim_template
+see 
 ```
     - vendor
     - public
@@ -190,3 +190,130 @@ see https://github.com/Flaaim/slim_template
         - middleware.php
         - container.php
 ```
+## Add Controller
+1. Создаем директорию app. В данной директории будут храниться контроллеры, модели и т.д.
+2. Добавляем автозагрузку.
+```json
+    "autoload": {
+        "psr-4": {
+            "App\\": "app"
+        }
+    }
+```
+3. Выполняем composer dump-autoload -o
+### Вынос методов в контроллер
+```php
+//web.php
+use App\Controllers\HomeController;
+
+$app->get('/', HomeController::class . ':index')  ->setName('home');
+
+//app/Controllers/HomeController.php
+namespace App\Controllers;
+
+use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
+
+class HomeController {
+    public function index(Request $request, Response $response){
+        $response->getBody()->write('Hello');
+
+        return $response;
+    }
+}
+```
+## Рендеринг template и регистрация контроллера в контейнере
+1. Добавляем в контроллер 
+```php
+//HomeController
+    private $view;
+
+    public function __construct(Twig $view)
+    {
+        $this->view = $view;
+    }
+```
+2. Добавляем в container.php
+```php
+$container->set(HomeController::class, function($container){
+   $view = $container->get('view');
+   return new HomeController($view);
+});
+```
+## PDO
+1. Добавляем новый контейнер
+```php
+//container.php
+$container->set('db', function(){
+    return new PDO('mysql:dbname=slim;host=localhost', 'root', '');
+});
+
+$container->set(HomeController::class, function($container){
+    $view = $container->get('view');
+    $db = $container->get('db');
+    return new HomeController($view, $db);
+});
+```
+2. Обновляем метод __construct() в HomeController
+```php
+    public function __construct(Twig $view, $db)
+    {
+        $this->view = $view;
+        $query = $db->query('SELECT * FROM users');
+        $query->execute();
+
+        var_dump($query->fetchAll(PDO::FETCH_OBJ));
+    }
+```
+## Custom 404 page
+1. В middleware.php добавляем $errorMiddleware
+```php
+//middleware.php
+use Slim\Exception\HttpNotFoundException;
+use Slim\Psr7\Response;
+
+$errorMiddleware->setErrorhandler(HttpNotFoundException::class, function($request, $exception) use ($container){
+    $response = new Response();
+    return $container->get('view')->render($response->withStatus(404), 'errors/404.twig');
+});
+```
+2. В контроллере перехват ошибки 404
+```php
+if($query->rowCount() === 0){
+    throw new HttpNotFoundException($request);
+}
+```
+## Add Custom Middleware
+```php
+//middleware.php
+$beforeMiddleware = function(Request $request, Requesthandler $handler){
+    $response = $handler->handle($request);
+    $signedIn = true;
+
+    if(!$signedIn){
+        var_dump('You are not signed');
+        die();
+    }
+    return $response;
+};
+$app->add($beforeMiddleware);
+```
+Выносим middleware в отдельный файл. App/Middleware/AuthMiddleware.php
+```php
+class AuthMiddleware {
+
+public function __invoke(Request $request, Requesthandler $handler){
+    $response = $handler->handle($request);
+    $signedIn = false;
+    
+    if(!$signedIn){
+       var_dump("You are not sign in");
+       die();
+    }
+    return $response;
+    }
+}
+```
+`$app->add(new AuthMiddleware());` оставляем также.
+## Middleware to Route
+
