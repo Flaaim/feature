@@ -219,5 +219,15 @@ phpmyadmin:
     ports:
       - "8888:80"
   ```
+  ## Использование томов
+ ```
+ mysql:
+    volumes: 
+        - "mysql_data:/var/lib/mysql"
+        
+ volumes:
+    mysql_data:
+ 
+ 
 
 
