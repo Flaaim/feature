@@ -1,6 +1,7 @@
 # Контейнерезация laravel приложения.
 1. Устанавливаем/копируем проект. Composer create-project laravel/laravel myproject
-2. В папке myproject создаем директорию docker.
+2. В папке проекта создаем файл docker-compose.yml
+3. В папке myproject создаем директорию docker.
 ```yml
 version: "3.8"
 
@@ -19,12 +20,12 @@ services:
 3. Структура папок будет следующая
 ```
 myproject
-- docker
+	- docker
 		- nginx
-			 - config
-			 		config.default
-			 - log
-			 		//logs
+			- config
+				default.conf
+			- log
+				//logs
 		- php
 			php-fpm.dockerfile
 ```
