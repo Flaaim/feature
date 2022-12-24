@@ -18,9 +18,9 @@ services:
 			- php
 ```
 3. Структура папок будет следующая
-```
+```yml
 myproject
-	- docker
+    - docker
 		- nginx
 			- config
 				default.conf
