@@ -21,3 +21,9 @@ git fetch [remote name]			получение изменений из удале�
 ## Добавление изменений в коммит
 
 git commit --amend
+  
+## Rebase
+  //on some branch
+git rebase main
+git swithc main
+git merge somebranch
