@@ -27,3 +27,10 @@ git commit --amend
 git rebase main
 git swithc main
 git merge somebranch
+
+## Просмотр изменений
+  
+git diff path/to/file просмотр изменений в конкретном файле
+
+git diff --staged path/to/file просмотр изменений к коенкретном файле, после добавления файла в индекс командой git add
+  
