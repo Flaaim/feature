@@ -91,7 +91,29 @@ DB_DATABASE=app // из environment docker-compose.yml
 DB_USERNAME=app // из environment docker-compose.yml
 DB_PASSWORD=secret // из environment docker-compose.yml
 ```
+### Добавляем MailHog
+в файл docker-compose.yml добавляем:
+```
+mailhog:
+	image: mailhog/mailhog
+	logging:
+  	driver: 'none' # disable saving logs
+	port:
+		- 1025:1025
+		- 8025:8025
 	
+```
+В .env файле прописываем:
+```
+MAIL_MAILER=smtp
+MAIL_HOST=mailhog
+MAIL_PORT=1025
+MAIL_USERNAME=null
+MAIL_PASSWORD=null
+MAIL_ENCRYPTION=null
+MAIL_FROM_ADDRESS="Admin@email.com"
+MAIL_FROM_NAME="${APP_NAME}"
+```
 ### Устранение ошибок 
 1. The stream or file "/var/www/storage/logs/laravel.log" could not be opened in append mode: Failed to open stream: Permission denied 
 ```
