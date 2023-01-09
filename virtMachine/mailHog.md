@@ -1,0 +1,14 @@
+# mailHog
+
+Docker compose file
+```
+services:
+  mailhog:
+    image: mailhog/mailhog
+    logging:
+      driver: 'none'  # disable saving logs
+    ports:
+      - 1025:1025 # smtp server
+      - 8025:8025 # web ui
+```
+
