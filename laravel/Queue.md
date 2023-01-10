@@ -10,3 +10,4 @@ php artisan migrate
 3. Должен быть создан custom `Notifications` смотри [Custom email](https://github.com/Flaaim/feature/blob/main/laravel/auths/reset_password_custom_email.md)
 4. Устанавливаем, что класс `CustomNotification implements ShouldQueue`
 5. Теперь при отправке email, должна заполниться таблица jobs в базе данных.
+6. Запуск командой `php artisan queue:work`
