@@ -32,5 +32,8 @@ git merge somebranch
   
 git diff path/to/file просмотр изменений в конкретном файле
 
-git diff --staged path/to/file просмотр изменений к коенкретном файле, после добавления файла в индекс командой git add
+git diff --staged path/to/file просмотр изменений к конкретном файле, после добавления файла в индекс командой git add
   
+## Logging
+
+git log --pretty=oneline в одну линию.
