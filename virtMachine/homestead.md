@@ -28,7 +28,7 @@ folders:
     - map: C:\Users\flaaim\Code
       to: /home/vagrant/code
 ```
-9. Прописываем в файле hosts C:\Windows\System32\drivers\etc\hosts
+9. Прописываем в файле hosts `C:\Windows\System32\drivers\etc\hosts`
 ```
   192.168.56.56  homestead.test
 ```
