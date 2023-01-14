@@ -37,3 +37,7 @@ git diff --staged path/to/file просмотр изменений к конкр
 ## Logging
 
 git log --pretty=oneline в одну линию.
+  
+## Clone
+
+git clone <url> <folder name> клонирование в новый/сущесвующий репозиторий
