@@ -10,7 +10,24 @@
   $response = $client->get('https://test.ru', []) //GET запрос
   $response = $client->post('https://test.ru', []) //POST запрос
 ```
+3. Добавляем cookie. 
+```php
+use GuzzleHttp\Cookie\CookieJar;
+$jar = new CookieJar();
+$cookies = [
+    'Kodeks' => '1674004423',
+    'Auth' => 'UlJDMTI3VTE6U3lKTXhqNw==',
+    'lastVDir' => '%2Fdocs',
+    'KodeksData'=> 'XzE2Nzc3MzQzXzE3OTMyMDU=',
+    'state' => 'state',
+]; //формируем массив cookie.
 
+$cookieJar = $jar->fromArray($cookies, 'https://test.ru');
+$response = $client->get('https://test.ru', [
+  'cookies' => $cookieJar
+]);
+
+```
 ## Получение данных
 
 ### использую DiDom.
