@@ -26,7 +26,11 @@ $cookieJar = $jar->fromArray($cookies, 'https://test.ru');
 $response = $client->get('https://test.ru', [
   'cookies' => $cookieJar
 ]);
-
+if($response->getStatusCode == 200){
+  $resBody = (string) $response->getBdoy();
+} else{
+    echo 'Некорректный ответ. Код статуса: '.$response->getStatusCode();
+}
 ```
 ## Получение данных
 
@@ -36,5 +40,6 @@ $response = $client->get('https://test.ru', [
 2. Подключаем пространство имен `use DiDom\Document;`
 3. Получаем данные:
 ```php
+$document = new Document($resBody);
 $links = $document->find('tagname.class');
 ```
