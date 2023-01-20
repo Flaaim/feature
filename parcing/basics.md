@@ -34,3 +34,7 @@ $response = $client->get('https://test.ru', [
 1. Устанавливаем DiDom `composer require imangazaliev/didom`
 
 2. Подключаем пространство имен `use DiDom\Document;`
+3. Получаем данные:
+```php
+$links = $document->find('tagname.class');
+```
