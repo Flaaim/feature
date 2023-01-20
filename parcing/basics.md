@@ -30,7 +30,7 @@ $response = $client->get('https://test.ru', [
 ```
 ## Получение данных
 
-### использую DiDom.
+### используем DiDom.
 1. Устанавливаем DiDom `composer require imangazaliev/didom`
 
 2. Подключаем пространство имен `use DiDom\Document;`
