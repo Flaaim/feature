@@ -36,8 +36,14 @@ git diff --staged path/to/file просмотр изменений к конкр
   
 ## Logging
 
-git log --pretty=oneline в одну линию.
+git log --pretty=oneline отобразить коммиты в одну линию.
   
 ## Clone
 
 git clone <url> <folder name> клонирование в новый/сущесвующий репозиторий
+  
+## .Ignore
+В директории root создаем файл .gitignore, в котором прописываем директории, которые необходимо игнорировать
+```
+  /vendor
+```
