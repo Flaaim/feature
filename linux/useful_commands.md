@@ -22,7 +22,7 @@ __alias mypass='cat /etc/passwd'__
 //добавляем alias, который будет всегда отображаться при открытии новой оболочки учетной записи
   
 __vi $HOME/.bashrc__ в конце добавляем предыдущую команду
-  
+
 __source $HOME/.bashrc__ чтобы сделать алиас достыпным из текущей оболочке.   
 
 
@@ -45,7 +45,8 @@ __chmod 700 <filename>__ - установить права доступа
 
 __touch filename__ - создает файл.
 
-### Измнение прав доступа
+### Изменение прав доступа
+
 __chmod 000 <filename>__ - изменение прав доступа файла
 __chown <user>:<group>__ - изменение владельца файла.
 |Значение| Цифра|
@@ -54,3 +55,8 @@ __chown <user>:<group>__ - изменение владельца файла.
 | w-write| 2    |
 | x-action| 1   |
 
+### Копирование/Перемещение файлов 
+#### Копирование 
+
+__cp -r /usr/share/doc/bash-completion folder__ - Копирование директории bash-completion в директорию folder. (folder/bash-completion)
+__cp -r /usr/share/doc/bash-completion/* folder__ - Копирование файлов из директории bash-completion в директорию folder. (folder/file1 file2 и т.д)
