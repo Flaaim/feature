@@ -44,6 +44,18 @@ __source $HOME/.bashrc__ чтобы сделать алиас достыпным
 __chmod 700 <filename>__ - установить права доступа
 
 __touch filename__ - создает файл.
+  
+__touch filename{1,2,3,4,5}__ - создает несколько файлов (filename1, filename2, filename2 и т.д.)
+
+### Создать файл в несуществующей директории
+
+1. Создаем переменную в которой будет хранить путь к файлу `file='outdoors/vegatation/landscape.txt'
+2. Объединяем 2 коаманды `mkdir` и `touch`
+```
+    mkdir -p "${file}" && touch "$file"  
+```
+    
+
 
 ### Изменение прав доступа
 
