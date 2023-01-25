@@ -72,3 +72,7 @@ __chown <user>:<group>__ - изменение владельца файла.
 
 __cp -r /usr/share/doc/bash-completion folder__ - Копирование директории bash-completion в директорию folder. (folder/bash-completion)
 __cp -r /usr/share/doc/bash-completion/* folder__ - Копирование файлов из директории bash-completion в директорию folder. (folder/file1 file2 и т.д)
+
+## Писк файлов
+### команда find
+__fine <path> -name 
