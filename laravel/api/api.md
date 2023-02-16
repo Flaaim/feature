@@ -28,5 +28,20 @@ public function show(Announcement $announcement)
 {
         return new AnnouncementResource($announcement);
 }
+public function update(Request $request, Announcement $announcement)
+{
+        $validated = $request->validate([
+            'name' => 'required',
+            'details' => 'required',
+        ]);
+        $announcement->update($validated);
+        return new AnnouncementResource($announcement);
+}
+public function destroy(Announcement $announcement)
+{
+        $announcement->delete();
+        return response(null, Response::HTTP_NO_CONTENT);
+}
+//добавить use Symfony\Component\HttpFoundation\Response;
 ```
 4. В Postman необходимо в headers необходимо прописать `Accept: application/json`
