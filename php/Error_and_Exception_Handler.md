@@ -47,3 +47,50 @@
   }
 
 ```
+5. Определяем в конструкторе метод `set_error_hadler`
+```php
+
+public function __construct()
+  {
+      if(DEBUG){
+        error_reporting(-1);
+      }else {
+        error_reporting(1);
+      }
+      set_exception_handler([$this, 'exceptionHandler']); //Отлавливает исключения
+      set_error_handler([$this, 'errorHandler']); //отлавливает ошибки
+      ob_start();
+      register_shutdown_function([$this, 'fatalErrorHandler']);
+   }
+```
+6. Опеределяем два метода `exceptionHandler` и `fatalErrorHandler`
+```php
+    public function errorHandler($errno, $errstr, $errfile, $errlin)
+    {
+        $this->logError($errstr, $errfile, $errlin);
+        $this->displayError($errno, $errstr, $errfile, $errlin);
+    }
+    public function fatalErrorHandler()
+    {
+        $error = error_get_last();
+        if (!empty($error) && $error['type'] & (E_ERROR | E_PARSE | E_COMPILE_ERROR)) {
+            $this->logError($error['message'], $error['file'], $error['line']);
+            ob_end_clean();
+            $this->displayError($error['type'], $error['message'], $error['file'], $error['line']);
+        } else {
+            ob_end_flush();
+        }
+    }
+ ```
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
