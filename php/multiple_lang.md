@@ -1,5 +1,11 @@
-# Мультиязычность
-## Базы данных
+# Мультиязычность :grimacing:
+
+1. [База данных](#база-данных)
+2. [Widget Language](#создаем-widget-language)
+3. [Widget Language](#создаем-widget-language)
+4. [Добавление языков в контейнер](#добавление-языков-в-контейнер-app)
+
+## База данных
 1. Создаем таблицу в базе данных с языками. table languages.
 
 | id | title | code | base |
@@ -74,7 +80,8 @@ class Language {
     ob_get_clean();
   }
 ```
-4. В AppController записываем все доступные языки из БД и текущий язык в контейнер App.
+## Добавление языков в Контейнер App.
+1. В AppController записываем все доступные языки из БД и текущий язык в контейнер App.
 ```php
 class AppController extends Controller
 {
@@ -85,12 +92,12 @@ class AppController extends Controller
 	\Wfm\App::$app->setProperty('language',  \App\widgets\Language\Language::getLanguage(\App\widgets\Language\Language::getLanguages()));
 	}
 }
-5. В routes добавляем маршрут с lang
+2. В routes добавляем маршрут с lang
 ```php
 	//routes.php
 	Router::add('^(?P<lang>[a-z]+)?/?$', ['controller'=>'Main', 'action' => 'index']);
 ```
-6. В Router.php, необходимо проверить наличие в routes lang, 
+3. В Router.php, необходимо проверить наличие в routes lang, 
 ```php
 	if(!empty(self::$route['lang'])){
 		App::$app->setProperty('lang', self::$route['lang']);
