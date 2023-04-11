@@ -50,7 +50,6 @@ class Language {
   } 
   public function getLanguages($languages) 
   {
- 
     $lang = \Wfm\App::$app->getProperty('lang'); // получаем lang из контейнера App 
     if($lang && array_key_exists($lang, $languages)){ //Проверяем сущ $lang и наличие такого ключа в массиве $languages
       $key = $lang; //присваиваем переменной $key значение $lang 
@@ -74,7 +73,30 @@ class Language {
     require_once $this->lang_tpl;
     ob_get_clean();
   }
-  
+```
+4. В AppController записываем все доступные языки из БД и текущий язык в контейнер App.
+```php
+class AppController extends Controller
+{
+	public function __construct()
+	{
+	...
+	\Wfm\App::$app->setProperty('languages', \App\widgets\Language\Language::getLanguages());
+	\Wfm\App::$app->setProperty('language',  \App\widgets\Language\Language::getLanguage(\App\widgets\Language\Language::getLanguages()));
+	}
+}
+5. В routes добавляем маршрут с lang
+```php
+	//routes.php
+	Router::add('^(?P<lang>[a-z]+)?/?$', ['controller'=>'Main', 'action' => 'index']);
+```
+6. В Router.php, необходимо проверить наличие в routes lang, 
+```php
+	if(!empty(self::$route['lang'])){
+		App::$app->setProperty('lang', self::$route['lang']);
+	}
+```
+
   
   
   
