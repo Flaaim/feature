@@ -1,7 +1,13 @@
 ### Обновление данных SELECT + UPDATE
 в одну строку
 ```mysql
+
 UPDATE article_clone SET likes = (@cur_value := likes) + 1 WHERE id = 1
+
+// with last insert ID
+UPDATE counters
+SET value = LAST_INSERT_ID(value) + 1
+WHERE id = 1;
 ```
 
 ```mysql
