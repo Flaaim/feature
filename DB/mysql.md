@@ -33,3 +33,12 @@ SELECT SUM(population) FROM country; //сложить все данные
 
 SELECT Governmentform, COUNT(Governmentform) FROM country GROUP BY Governmentform; //сгруппировать все данные по форме правления и количество стран по каждой из форм.
 ```
+
+## Related Articles
+```mysql 
+ALTER TABLE table_name ADD FULLTEXT(col1, col2);
+
+SELECT *, match(title, content) AGAINST($article_title) AS score FROM article 
+        LEFT JOIN article_description ON article.id = article_description.article_id 
+        WHERE MATCH(title, content) AGAINST($article_title) AND status = 1 ORDER by score DESC LIMIT 5
+```
