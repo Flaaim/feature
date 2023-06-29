@@ -45,3 +45,9 @@ chmod -R o+w name_of_project/storage
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     @vite(['resources/css/app.css'])
 ```
+### Редирект с root на public/index.php
+```
+RewriteEngine On
+RewriteCond %{REQUEST_URI} !^public
+RewriteRule ^(.*)$ public/$1 [L]
+```
