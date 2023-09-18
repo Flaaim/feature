@@ -37,13 +37,14 @@
       http_response_code($response);
       if($response == 404 && !DEBUG){
         require_once('/public/errors/404.php');
+        die;
       }
       if(DEBUG){
         require_once('/public/errors/development.php');
       } else {
         require_once('/public/errors/production.php');
       }
-      
+      die;
   }
 
 ```
