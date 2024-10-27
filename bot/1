@@ -1,0 +1,38 @@
+<?php
+    function in_array_r($needle, $haystack, $strict = false): bool
+    {
+        foreach ($haystack as $item) {
+            if (($strict ? $item === $needle : $item == $needle) || (is_array($item) && in_array_r($needle, $item, $strict))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+$right_answer_text = 'Службой производственного контроля.';
+
+$answers = [
+		[
+		'answer' => 'Назначенным (определенным) решением руководителя эксплуатирующей организации, индивидуального предпринимателя работником.',
+		'correct_answer' => '1',
+		],
+		[
+		'answer' => 'Службой производственного контроля.',
+		'correct_answer' => '1',
+		],
+		[
+		'answer' => 'Лицом, ответственным за безопасную эксплуатацию технических устройств, применяемых на ОПО.',
+		'correct_answer' => '0',
+		]
+	
+	];
+	if(in_array_r($right_answer_text, $answers)){
+		$found_key = array_search($right_answer_text, array_column($answers, 'answer'));
+		unset($answers[$found_key]);
+		$answers = array_values($answers);
+	}
+	echo $found_key;
+	echo "<pre>";
+	var_dump($answers);
+	echo "</pre>";
+?>
