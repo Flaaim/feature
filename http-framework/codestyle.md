@@ -1,6 +1,6 @@
 //codestyle config file .editorconfig
 
-# editorconfig.org
+//# editorconfig.org
 root = true
 
 [*]
