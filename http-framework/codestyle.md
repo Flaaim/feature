@@ -1,3 +1,6 @@
+НАСТРОЙКА СРЕДЫ РАЗРАБОТКИ:
+В корне проекта создаем файл .editorconfig
+
 //codestyle config file .editorconfig
 
 //# editorconfig.org
